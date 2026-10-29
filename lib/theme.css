@@ -1,0 +1,40 @@
+/* product-video-skills · default theme.
+ *
+ * The video only ever reads these --pv-* tokens (pv.css, pv.js and the scenes). capture.mjs
+ * writes assets/brand/brand.css, loaded after this file, which maps your product's own CSS
+ * tokens onto them (config.brand.map). Anything you don't map falls back to the values below.
+ *
+ * Accents have one job each (skills/pv-brand): action = CTA, success, "new"; brand = the
+ * product name and authority; data = numbers and evidence; special = one reserved concept
+ * only (a channel, a sub-product); danger = problems only.
+ */
+@font-face { font-family: 'Space Grotesk'; src: url('fonts/space-grotesk.woff2') format('woff2'); font-weight: 300 700; font-style: normal; font-display: block; }
+@font-face { font-family: 'JetBrains Mono'; src: url('fonts/jetbrains-mono.woff2') format('woff2'); font-weight: 400 500; font-style: normal; font-display: block; }
+
+:root {
+  color-scheme: dark;
+
+  /* Ground, surfaces, hairlines */
+  --pv-ground: #0b0c10;
+  --pv-panel: rgba(255, 255, 255, 0.05);
+  --pv-popover: #16171c;
+  --pv-border: rgba(255, 255, 255, 0.10);
+
+  /* Text levels (-40 is decorative only: it fails contrast as reading text) */
+  --pv-text-1: rgba(255, 255, 255, 1);
+  --pv-text-70: rgba(255, 255, 255, 0.70);
+  --pv-text-55: rgba(255, 255, 255, 0.55);
+  --pv-text-40: rgba(255, 255, 255, 0.40);
+  --pv-on-accent: #0b0c10; /* text on any solid accent */
+
+  /* Accents */
+  --pv-action: #ffd166;
+  --pv-brand: #9d8cff;
+  --pv-data: #5cc8f0;
+  --pv-special: #ff8fb1;
+  --pv-danger: #ff6b6b;
+
+  /* Type: display for kinetic type, mono for labels. Both OFL (lib/fonts). */
+  --pv-font-display: 'Space Grotesk', system-ui, sans-serif;
+  --pv-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}

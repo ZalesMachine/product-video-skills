@@ -1,0 +1,15 @@
+{
+  "name": "acme-desk-demo",
+  "private": true,
+  "description": "A fictional helpdesk app, used as the demo product of product-video-skills.",
+  "type": "module",
+  "scripts": {
+    "video:capture": "node video/capture/capture.mjs",
+    "video:preview": "node video/render.mjs --lang en --prepare-only && cd video/launch && HYPERFRAMES_SKIP_SKILLS=1 npx --yes hyperframes@0.8.107 preview",
+    "video:render": "node video/render.mjs",
+    "video": "npm run video:capture && npm run video:render"
+  },
+  "devDependencies": {
+    "puppeteer": "24.42.0"
+  }
+}

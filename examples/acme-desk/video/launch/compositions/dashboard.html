@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        /* Dashboard (12 beats): the template's section scene, renamed. Sidebar + title + pill + real plane +
+           big numbers + the chart and the channels card toward the camera. */
+        #sc-dashboard { position: absolute; inset: 0; --c1: var(--pv-data); --c2: var(--pv-action); --c3: var(--pv-brand); }
+        .s-world { position: absolute; inset: 0; }
+        .s-back { left: 0; top: 0; --glow: var(--pv-data); }
+        .s-head { position: absolute; left: 120px; top: 118px; }
+        .s-title { font-size: 112px; }
+        .s-cap { position: absolute; right: 120px; top: 196px; font-size: 54px; font-weight: 700; letter-spacing: -0.03em; }
+        .s-stats { position: absolute; left: 0; right: 0; top: 410px; display: flex; justify-content: center; gap: 130px; }
+        .s-stat { display: flex; flex-direction: column; align-items: flex-start; }
+        .s-num { font-size: 176px; font-weight: 700; letter-spacing: -0.05em; line-height: 0.95; font-variant-numeric: tabular-nums; }
+        .s-num.hi { color: var(--pv-action); text-shadow: 0 0 50px color-mix(in srgb, var(--pv-action) 45%, transparent); }
+        .s-lab { margin-top: 14px; }
+        .s-frag { left: 0; top: 0; --glow: var(--pv-data); }
+        .s-stack { position: absolute; inset: 0; perspective: 2200px; }
+      </style>
+
+      <div id="sc-dashboard" class="scene" data-composition-id="dashboard" data-width="1920" data-height="1080">
+        <div class="bg"><i data-layout-allow-overflow class="wash w1"></i><i data-layout-allow-overflow class="wash w2"></i><i data-layout-allow-overflow class="wash w3"></i><div class="grid"></div></div>
+        <div class="s-world">
+          <div class="stage3d"><div class="plane s-back"><img src="assets/screens/current/dashboard.png" alt="" /></div></div>
+          <div class="s-stats">
+            <div class="s-stat"><span class="s-num s-n1"></span><span class="eyebrow s-lab s-l1"></span></div>
+            <div class="s-stat"><span class="s-num s-n2"></span><span class="eyebrow s-lab s-l2"></span></div>
+            <div class="s-stat"><span class="s-num hi s-n3"></span><span class="eyebrow s-lab s-l3"></span></div>
+          </div>
+          <div class="s-stack">
+            <div class="frag s-frag s-strip"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+            <div class="frag s-frag s-chart"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+            <div class="frag s-frag s-chan"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          </div>
+          <div class="s-head"><div class="kt s-title"></div></div>
+          <div class="s-cap"><span class="s-cycle"></span></div>
+        </div>
+        <!-- Navigation (PV.navIntro), at the end of the scene so it stays on top: sidebar with the PREVIOUS
+             section active (first img) and the current one (second img); with a single capture, a single img. -->
+        <div class="pv-nav-dim"></div>
+        <div class="pv-nav"><div class="frag pv-rail"><img src="assets/screens/current/customers.png" alt="" /><img src="assets/screens/current/dashboard.png" alt="" /></div><div class="pv-rail-ring"></div><div class="cursor pv-rail-cursor"></div></div>
+      </div>
+
+      <script>
+        PV.scene('dashboard', (R, tl) => {
+          const $ = (s) => R.querySelector(s);
+          const b = PV.b;
+
+          // Entrance: continues the hook's zoom-through. The section is entered from the sidebar.
+          PV.zoomIn(tl, $('.s-world'), 0);
+          const C0 = PV.navIntro(R, tl, 'dashboard');
+
+          // The real screen, faint and blurred behind the numbers, turning slowly through the whole scene.
+          const back = $('.s-back');
+          const gb = PV.plane(back, 'dashboard', 1700);
+          tl.fromTo(back, { x: 960 - gb.w / 2, y: 140, rotationX: 24, scale: 1.04, opacity: 0.32, filter: 'blur(3px)', transformOrigin: '50% 0%' },
+            { rotationX: 16, duration: b(12), ease: 'none' }, 0);
+
+          // Title with a streak + a pill that cycles three ideas.
+          PV.streakIn(tl, PV.chars($('.s-title'), PV.t('dash.title').toUpperCase()), C0, { from: 'left', dist: 200, stagger: 0.025, blur: 16 });
+          PV.cycle(tl, $('.s-cycle'), PV.t('dash.caps'), [b(2), b(6), b(9)], { cls: 'data' });
+
+          // Idea 1 · three numbers that hit on the beat (demo data: change them together with demo-data.mjs).
+          const labs = PV.t('dash.kpis'), units = PV.t('dash.units');
+          [[$('.s-n1'), 1284], [$('.s-n2'), 14], [$('.s-n3'), 96]].forEach(([el, v], i) => {
+            const t = b(1.6 + i);
+            PV.count(tl, el, v, t, { dur: 1.1, suffix: units[i] });
+            PV.slam(tl, el, t, { scale: 1.5, blur: 14, dur: 0.45 });
+            const lab = $(`.s-l${i + 1}`); lab.textContent = labs[i].toUpperCase();
+            PV.fadeIn(tl, lab, t + 0.2, { dur: 0.3 });
+          });
+          // The real KPI strip appears below as the source of those numbers.
+          const strip = $('.s-strip');
+          const gs = PV.crop(strip, 'dashboard', 'kpis', { scale: 0.92, pad: 2 });
+          gsap.set(strip, { x: 960 - gs.w / 2, y: 720 });
+          tl.fromTo(strip, { opacity: 0, rotationX: -70, transformOrigin: '50% 0%' }, { opacity: 1, rotationX: 0, duration: 0.55, ease: 'expo.out' }, b(4.5));
+          tl.to([$('.s-stats'), strip], { y: '-=50', opacity: 0, filter: 'blur(10px)', duration: 0.35, ease: 'power3.in' }, b(6) - 0.35);
+          tl.to(back, { opacity: 0.16, duration: 0.5, ease: 'power2.inOut' }, b(6) - 0.3);
+
+          // Idea 2 · the real chart comes out toward the camera.
+          const chart = $('.s-chart');
+          const gc = PV.crop(chart, 'dashboard', 'chart', { scale: 1.2, pad: 4 });
+          const cx = 960 - gc.w / 2, cy = 330;
+          tl.fromTo(chart, { x: cx, y: cy + 160, scale: 0.7, rotationX: 22, opacity: 0, filter: 'blur(14px)', transformOrigin: '50% 100%' },
+            { y: cy, scale: 1, rotationX: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out' }, b(6));
+          tl.to(chart, { x: cx - 260, y: cy - 30, scale: 0.84, rotationY: 14, opacity: 0.4, filter: 'blur(4px)', duration: 0.6, ease: 'power3.inOut' }, b(9) - 0.3);
+
+          // Idea 3 · channel by channel: the real card arrives from the right.
+          const chan = $('.s-chan');
+          const gh = PV.crop(chan, 'dashboard', 'channels', { scale: 1.45, pad: 4 });
+          tl.fromTo(chan, { x: 1880 - gh.w + 140, y: 300, rotationY: -18, opacity: 0, filter: 'blur(14px)', transformPerspective: 1400 },
+            { x: 1700 - gh.w, rotationY: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out' }, b(9));
+
+          // Exit: zoom-through toward the camera.
+          PV.zoomOut(tl, $('.s-world'), b(12) - 0.24, { scale: 1.3 });
+        });
+      </script>
+    </template>
+  </body>
+</html>

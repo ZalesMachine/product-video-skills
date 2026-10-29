@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #sc-hook { position: absolute; inset: 0; --c1: var(--pv-brand); --c2: var(--pv-data); --c3: var(--pv-action); }
+        .h-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .h-line { display: flex; align-items: center; gap: 0.18em; }
+        .h-frags { position: absolute; inset: 0; }
+        .h-frags .frag { left: 0; top: 0; }
+        .h-ring { left: 960px; top: 540px; width: 1180px; height: 1180px; margin: -590px 0 0 -590px; }
+        .h-ring2 { left: 960px; top: 540px; width: 760px; height: 760px; margin: -380px 0 0 -380px; border-style: dotted; }
+        .h-pre-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .h-pre { transform: translateX(-120px); }
+        .h-nuevo { transform: translateX(260px); margin-top: 6px; }
+        .h-e { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .h-logo { width: 150px; height: auto; display: block; margin-bottom: 44px; }
+        .h-product { --glow: var(--pv-brand); }
+        /* Hairline frame positioned with CSS relative to the title (it doesn't depend on measuring the layout). */
+        .h-frame { position: relative; }
+        .h-frame .hair.h { left: -2000px; right: -2000px; }
+        .h-frame .hair.v { top: -2000px; bottom: -2000px; }
+        .h-eline1 { top: 14px; } .h-eline2 { bottom: 4px; }
+        .h-evl1 { left: -28px; } .h-evl2 { right: -28px; }
+        .h-ec1 { left: -28px; top: 14px; } .h-ec2 { left: calc(100% + 28px); top: 14px; }
+        .h-ec3 { left: -28px; top: calc(100% - 4px); } .h-ec4 { left: calc(100% + 28px); top: calc(100% - 4px); }
+        .h-url { margin-top: 46px; font-size: 26px; color: var(--pv-text-1); }
+        .h-plane { left: 0; top: 0; }
+      </style>
+
+      <div id="sc-hook" class="scene" data-composition-id="hook" data-width="1920" data-height="1080">
+        <div class="bg">
+          <i data-layout-allow-overflow class="wash w1"></i><i data-layout-allow-overflow class="wash w2"></i><i data-layout-allow-overflow class="wash w3"></i>
+          <div class="grid"></div><div class="dots"></div><div class="vignette"></div>
+        </div>
+
+        <!-- Riser: a real screen rises behind in the last 4 beats (the next scene picks it up). -->
+        <div class="stage3d"><div class="plane h-plane"><img src="assets/screens/current/dashboard.png" alt="" /></div></div>
+
+        <i class="hair h h-hl" style="top:540px"></i>
+        <i class="hair v h-vl" style="left:960px"></i>
+
+        <!-- Real fragments of the app orbiting the text: "this is the real product" from second one. -->
+        <div class="h-frags">
+          <div class="ring h-ring"></div><div class="ring h-ring2"></div>
+          <div class="frag h-f" data-shot="dashboard" data-key="kpi1"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="frag h-f" data-shot="customers" data-key="card1"><img src="assets/screens/current/customers.png" alt="" /></div>
+          <div class="frag h-f" data-shot="tickets" data-key="st1"><img src="assets/screens/current/tickets.png" alt="" /></div>
+          <div class="frag h-f" data-shot="dashboard" data-key="kpi4"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="frag h-f" data-shot="customers" data-key="card3"><img src="assets/screens/current/customers.png" alt="" /></div>
+          <div class="frag h-f" data-shot="dashboard" data-key="channels"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="frag h-f" data-shot="tickets" data-key="st2"><img src="assets/screens/current/tickets.png" alt="" /></div>
+          <div class="frag h-f" data-shot="dashboard" data-key="kpi3"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+        </div>
+
+        <!-- A · "Your [token]" -->
+        <div class="h-center h-a">
+          <div class="kt kt-xl h-line"><span class="h-your"></span><span class="h-pill"></span></div>
+        </div>
+
+        <!-- B · "Introducing the new" -->
+        <div class="h-pre-wrap h-d">
+          <div class="kt kt-l h-pre"></div>
+          <div class="kt kt-m h-nuevo"><span class="dim h-nuevo-t"></span></div>
+        </div>
+
+        <!-- C · Product name -->
+        <div class="h-e">
+          <img class="h-logo" src="assets/brand/logo.png" alt="" />
+          <div class="h-frame">
+            <div class="kt kt-xl glow h-product"></div>
+            <i class="hair h h-eline1"></i><i class="hair h h-eline2"></i>
+            <i class="hair v h-evl1"></i><i class="hair v h-evl2"></i>
+            <div class="cross h-ec1"></div><div class="cross h-ec2"></div><div class="cross h-ec3"></div><div class="cross h-ec4"></div>
+          </div>
+          <div class="eyebrow h-url"><span class="dot"></span><span class="h-url-t"></span></div>
+        </div>
+      </div>
+
+      <script>
+        PV.scene('hook', (R, tl) => {
+          const $ = (s) => R.querySelector(s);
+          const $$ = (s) => Array.from(R.querySelectorAll(s));
+          // The music starts at 0 and its first downbeat lands on DOWNBEAT0: t(n) = beat n from there.
+          const t = (n) => PV.DOWNBEAT0 + PV.b(n);
+          const b = PV.b;
+          const C = PV.color;
+
+          // ── Background ─────────────────────────────────────────────────────
+          tl.fromTo($('.bg'), { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0);
+          tl.fromTo($$('.wash'), { scale: 0.7 }, { scale: 1, duration: b(4), ease: 'power2.out', stagger: b(0.5) }, 0);
+          PV.drawLines(tl, [$('.h-hl'), $('.h-vl')], 0.05, { dur: 0.9, stagger: 0.15 });
+
+          // ── A · "Your [token]": the pill swaps its word on every beat (0–4) ──
+          PV.words($('.h-your'), PV.t('hook.your'));
+          PV.slam(tl, $('.h-your'), t(0) - 0.05, { scale: 1.9, blur: 20 });
+          // The special accent is reserved for one concept: the tokens go brand, data, action, brand.
+          PV.cycle(tl, $('.h-pill'), PV.t('hook.tokens'), [t(0) + 0.12, t(1), t(2), t(3)], { colors: [C('brand'), C('data'), C('action'), C('brand')], height: '1.06em' });
+          PV.pulse(tl, $('.wash.w1'), 0, 4, { every: 1, peak: 1, rest: 0.75 });
+
+          // Fragments fly out of the center to their orbit, one every quarter beat (2–4).
+          const spots = [
+            { x: 330, y: 220, s: 0.95, r: -6 }, { x: 1340, y: 200, s: 0.7, r: 4 },
+            { x: 1690, y: 610, s: 2.0, r: 5 }, { x: 1340, y: 890, s: 0.9, r: -3 },
+            { x: 250, y: 650, s: 0.75, r: 3 }, { x: 650, y: 890, s: 0.62, r: -2 },
+            { x: 820, y: 175, s: 2.0, r: 2 }, { x: 1700, y: 330, s: 0.85, r: -4 },
+          ];
+          $$('.h-f').forEach((el, i) => {
+            const sp = spots[i];
+            const g = PV.crop(el, el.dataset.shot, el.dataset.key, { scale: sp.s, pad: el.dataset.key.startsWith('st') ? 4 : 0 });
+            gsap.set(el, { x: sp.x - g.w / 2, y: sp.y - g.h / 2, rotation: sp.r });
+            const dx = 960 - sp.x, dy = 540 - sp.y;
+            tl.fromTo(el, { x: sp.x - g.w / 2 + dx * 0.8, y: sp.y - g.h / 2 + dy * 0.8, scale: 0.3, opacity: 0, filter: 'blur(14px)', rotation: 0 },
+              { x: sp.x - g.w / 2, y: sp.y - g.h / 2, scale: 1, opacity: 1, filter: 'blur(0px)', rotation: sp.r, duration: 0.55, ease: 'expo.out' }, t(2) + i * b(0.25));
+          });
+          PV.fadeIn(tl, [$('.h-ring'), $('.h-ring2')], t(2), { dur: b(1) });
+          tl.fromTo($('.h-ring'), { rotation: 0 }, { rotation: 18, duration: b(2), ease: 'none' }, t(2));
+          tl.fromTo($('.h-ring2'), { rotation: 0 }, { rotation: -24, duration: b(2), ease: 'none' }, t(2));
+          tl.to($('.h-a'), { scale: 0.86, duration: b(2) - 0.3, ease: 'power2.out' }, t(2));
+          PV.zoomOut(tl, [$('.h-a'), $('.h-frags'), $('.h-hl'), $('.h-vl')], t(4) - 0.24, { scale: 1.45 });
+
+          // ── B · "Introducing the new" (4–8) ────────────────────────────────────
+          const pre = PV.chars($('.h-pre'), PV.t('hook.intro1').toUpperCase());
+          const nuevo = PV.chars($('.h-nuevo-t'), PV.t('hook.intro2').toUpperCase());
+          gsap.set($('.h-d'), { opacity: 0 });
+          tl.set($('.h-d'), { opacity: 1 }, t(4));
+          tl.fromTo(pre, { yPercent: 90, opacity: 0, filter: 'blur(10px)' }, { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.45, ease: 'power4.out', stagger: 0.03 }, t(4));
+          PV.streakIn(tl, nuevo, t(6), { dist: 240, stagger: 0.03 });
+          PV.zoomOut(tl, $('.h-d'), t(8) - 0.24, { scale: 1.35 });
+
+          // ── C · Product name with frame and URL (8–12) ─────────────────────────
+          // The product name never gets wider than 1700 px: the size is set before building the characters.
+          const productText = PV.t('hook.product').toUpperCase();
+          $('.h-product').style.fontSize = `${196 * Math.min(1, 1700 / PV.textWidth($('.h-product'), productText))}px`;
+          const product = PV.chars($('.h-product'), productText);
+          gsap.set($('.h-e'), { opacity: 0 });
+          tl.set($('.h-e'), { opacity: 1 }, t(8));
+          PV.arrive(tl, $('.h-e'), t(8), { from: 1.3 });
+          tl.fromTo(product, { opacity: 0, y: 40, filter: 'blur(12px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power4.out', stagger: 0.035 }, t(8));
+          tl.fromTo($('.h-logo'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, t(8.5));
+          gsap.set([$('.h-eline1'), $('.h-eline2'), $('.h-evl1'), $('.h-evl2')], { opacity: 0 });
+          PV.drawLines(tl, [$('.h-eline1'), $('.h-evl1'), $('.h-eline2'), $('.h-evl2')], t(8.5), { dur: b(1.5), stagger: b(0.25) });
+          tl.fromTo($$('.h-ec1, .h-ec2, .h-ec3, .h-ec4'), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'power3.out', stagger: b(0.25) }, t(9));
+          PV.fadeIn(tl, $('.h-url .dot'), t(9), { dur: 0.3 });
+          PV.decode(tl, $('.h-url-t'), PV.URL.toUpperCase(), t(9), { dur: b(1.5) });
+          // Nothing sits still: a slow push-in from the arrival to the riser.
+          tl.to($('.h-e'), { scale: 1.035, duration: t(12) - t(8) - 0.6, ease: 'none' }, t(8) + 0.6);
+
+          // Riser (12–16): the screen the next scene picks up rises behind.
+          const plane = $('.h-plane');
+          const pg = PV.plane(plane, 'dashboard', 1500);
+          gsap.set(plane, { x: 960 - pg.w / 2, y: 540 - pg.h / 2, opacity: 0 });
+          tl.to($('.h-e'), { scale: 1.07, duration: b(4) - 0.3, ease: 'power1.in' }, t(12));
+          tl.fromTo(plane, { opacity: 0, scale: 0.28, rotationX: 38, y: 540 - pg.h / 2 + 420, filter: 'blur(10px)' },
+            { opacity: 0.85, scale: 0.6, rotationX: 14, y: 540 - pg.h / 2 + 60, filter: 'blur(0px)', duration: b(4), ease: 'power2.in' }, t(12));
+          PV.zoomOut(tl, $('.h-e'), t(16) - 0.26, { scale: 1.5 });
+        });
+      </script>
+    </template>
+  </body>
+</html>

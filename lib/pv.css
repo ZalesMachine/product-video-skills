@@ -1,0 +1,146 @@
+/* product-video-skills · the visual language of the video.
+ *
+ * Shared base for every scene (compositions/*.html). Colors come only from the --pv-* tokens
+ * (theme.css + the product's brand.css): there is no brand hex in here, only mixes of tokens.
+ * Canonical copy: product-video-skills/lib/pv.css. Vocabulary: skills/pv-motion/SKILL.md.
+ */
+
+.scene {
+  position: absolute; inset: 0; overflow: hidden;
+  font-family: var(--pv-font-display); color: var(--pv-text-1);
+  -webkit-font-smoothing: antialiased;
+  --c1: var(--pv-brand); --c2: var(--pv-data); --c3: var(--pv-action);
+}
+
+/* ── Background: ground + color washes in the corners + grid ──────────────── */
+.bg { position: absolute; inset: 0; background: var(--pv-ground); overflow: hidden; }
+.wash { position: absolute; display: block; width: 1500px; height: 1500px; border-radius: 50%; }
+.wash.w1 { left: -620px; bottom: -760px; background: radial-gradient(closest-side, color-mix(in srgb, var(--c1) 42%, transparent), transparent 78%); }
+.wash.w2 { right: -640px; top: -760px; background: radial-gradient(closest-side, color-mix(in srgb, var(--c2) 34%, transparent), transparent 78%); }
+.wash.w3 { right: -520px; bottom: -880px; background: radial-gradient(closest-side, color-mix(in srgb, var(--c3) 22%, transparent), transparent 78%); }
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, white 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, white 4%, transparent) 1px, transparent 1px);
+  background-size: 120px 120px; background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 10%, transparent 72%);
+}
+.dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(color-mix(in srgb, white 16%, transparent) 1.2px, transparent 1.6px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 65%);
+}
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 55%, color-mix(in srgb, var(--pv-ground) 85%, transparent) 100%); }
+
+/* ── Technical ornaments ──────────────────────────────────────────────────── */
+.hair { position: absolute; display: block; background: color-mix(in srgb, white 16%, transparent); }
+.hair.h { height: 1px; left: 0; right: 0; transform-origin: 0 50%; }
+.hair.v { width: 1px; top: 0; bottom: 0; transform-origin: 50% 0; }
+.cross { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+.cross::before, .cross::after { content: ''; position: absolute; background: color-mix(in srgb, white 55%, transparent); }
+.cross::before { left: 10px; top: 0; width: 2px; height: 22px; }
+.cross::after { top: 10px; left: 0; height: 2px; width: 22px; }
+.ring { position: absolute; border-radius: 50%; border: 1.5px dashed color-mix(in srgb, white 18%, transparent); }
+.tick-label {
+  position: absolute; font-family: var(--pv-font-mono); font-weight: 500; font-size: 15px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--pv-text-70); white-space: nowrap;
+}
+.frame-corners { position: absolute; inset: 36px; pointer-events: none; }
+.frame-corners i { position: absolute; width: 26px; height: 26px; border-color: color-mix(in srgb, white 30%, transparent); border-style: solid; border-width: 0; }
+.frame-corners i:nth-child(1) { left: 0; top: 0; border-left-width: 1.5px; border-top-width: 1.5px; }
+.frame-corners i:nth-child(2) { right: 0; top: 0; border-right-width: 1.5px; border-top-width: 1.5px; }
+.frame-corners i:nth-child(3) { left: 0; bottom: 0; border-left-width: 1.5px; border-bottom-width: 1.5px; }
+.frame-corners i:nth-child(4) { right: 0; bottom: 0; border-right-width: 1.5px; border-bottom-width: 1.5px; }
+
+/* ── Kinetic type ─────────────────────────────────────────────────────────── */
+.kt {
+  font-weight: 700; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9;
+  white-space: nowrap; color: var(--pv-text-1);
+}
+.kt-xl { font-size: 196px; }
+.kt-l { font-size: 148px; }
+.kt-m { font-size: 104px; }
+.kt-s { font-size: 72px; letter-spacing: -0.03em; }
+.kt-xs { font-size: 52px; letter-spacing: -0.02em; }
+.kt .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.06em 0.02em 0.1em; margin: -0.06em 0 -0.1em; }
+.kt .wi, .kt .ch { display: inline-block; will-change: transform, filter; }
+.kt.glow { text-shadow: 0 0 40px color-mix(in srgb, var(--glow, var(--pv-brand)) 55%, transparent), 0 0 120px color-mix(in srgb, var(--glow, var(--pv-brand)) 30%, transparent); }
+.kt .dim { color: color-mix(in srgb, white 34%, transparent); }
+.kt .acc { color: var(--acc, var(--pv-action)); }
+.eyebrow {
+  font-family: var(--pv-font-mono); font-weight: 500; font-size: 22px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--pv-text-70); white-space: nowrap; display: inline-flex; align-items: center; gap: 14px;
+}
+.eyebrow .dot, .dot { display: block; width: 11px; height: 11px; border-radius: 50%; background: var(--dot, var(--pv-action)); box-shadow: 0 0 18px var(--dot, var(--pv-action)); flex: none; }
+.idx { font-family: var(--pv-font-mono); font-weight: 500; font-size: 24px; letter-spacing: 0.12em; color: var(--pv-text-55); }
+
+/* ── Pills (tokens that transform) ────────────────────────────────────────── */
+.pill {
+  --p: var(--pv-action);
+  display: inline-flex; align-items: center; justify-content: center; position: relative;
+  padding: 0.1em 0.34em 0.12em; border-radius: 0.24em; white-space: nowrap;
+  background: var(--p); color: var(--pv-on-accent);
+  box-shadow:
+    inset 0 0.04em 0 color-mix(in srgb, white 60%, transparent),
+    inset 0 -0.09em 0.16em color-mix(in srgb, black 22%, transparent),
+    0 0.12em 0.5em color-mix(in srgb, var(--p) 38%, transparent);
+}
+.pill.round { border-radius: 999px; padding: 0.1em 0.5em 0.12em; }
+.pill.action { --p: var(--pv-action); }
+.pill.brand { --p: var(--pv-brand); }
+.pill.data { --p: var(--pv-data); }
+.pill.special { --p: var(--pv-special); }
+.pill.ghost {
+  background: color-mix(in srgb, var(--p) 12%, transparent); color: var(--p);
+  box-shadow: inset 0 0 0 0.03em color-mix(in srgb, var(--p) 65%, transparent), 0 0 0.6em color-mix(in srgb, var(--p) 25%, transparent);
+}
+.badge-new {
+  font-family: var(--pv-font-mono); font-weight: 500; font-size: 24px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--pv-on-accent); background: var(--pv-action); border-radius: 999px; padding: 9px 20px 8px; display: inline-block;
+  box-shadow: 0 0 34px color-mix(in srgb, var(--pv-action) 45%, transparent);
+}
+
+/* ── Real screens: 3D planes and cropped fragments ────────────────────────── */
+.stage3d { position: absolute; inset: 0; perspective: 2000px; perspective-origin: 50% 45%; }
+.plane {
+  position: absolute; overflow: hidden; border-radius: 22px; background: var(--pv-ground);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, white 12%, transparent),
+    0 70px 160px color-mix(in srgb, black 70%, transparent),
+    0 0 160px color-mix(in srgb, var(--glow, var(--pv-brand)) 20%, transparent);
+}
+.plane img, .frag img { position: absolute; left: 0; top: 0; display: block; max-width: none; }
+.sheen {
+  position: absolute; inset: -20% -60%; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, color-mix(in srgb, white 14%, transparent) 50%, transparent 62%);
+}
+.frag {
+  position: absolute; overflow: hidden; border-radius: 16px; background: var(--pv-ground);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, white 16%, transparent),
+    0 40px 90px color-mix(in srgb, black 65%, transparent),
+    0 0 70px color-mix(in srgb, var(--glow, var(--pv-brand)) 18%, transparent);
+}
+.frag.flat { box-shadow: 0 0 0 1px color-mix(in srgb, white 14%, transparent), 0 24px 60px color-mix(in srgb, black 55%, transparent); }
+
+/* ── Cursor and click ─────────────────────────────────────────────────────── */
+.cursor { position: absolute; left: 0; top: 0; width: 44px; height: 44px; z-index: 50; }
+.cursor svg { position: absolute; left: 0; top: 0; width: 44px; height: 44px; transform-origin: 8px 5px; }
+.ripple {
+  position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; border-radius: 50%;
+  border: 2px solid var(--pv-action); background: color-mix(in srgb, var(--pv-action) 16%, transparent);
+}
+
+/* ── Cut flashes ──────────────────────────────────────────────────────────── */
+.flash { position: absolute; inset: 0; background: var(--flash, white); pointer-events: none; }
+
+/* ── Navigation: the product's real sidebar, enlarged, when entering a section (PV.navIntro) ── */
+.pv-nav-dim { position: absolute; inset: 0; z-index: 59; background: var(--pv-ground); }
+.pv-nav { position: absolute; inset: 0; z-index: 60; }
+.pv-rail { position: absolute; left: 0; top: 0; border-radius: 22px; overflow: hidden; background: var(--pv-ground);
+  box-shadow: 0 0 0 1px color-mix(in srgb, white 14%, transparent), 0 50px 120px color-mix(in srgb, black 75%, transparent), 0 0 90px color-mix(in srgb, var(--pv-brand) 22%, transparent); }
+.pv-rail img { position: absolute; left: 0; top: 0; display: block; max-width: none; }
+.pv-rail-ring { position: absolute; left: 0; top: 0; border-radius: 14px;
+  box-shadow: 0 0 0 3px var(--pv-action), 0 0 44px color-mix(in srgb, var(--pv-action) 55%, transparent); }

@@ -1,0 +1,12 @@
+# Regenerable video artifacts (npm run video)
+.cache/
+launch/renders/
+launch/snapshots/
+launch/review/
+launch/.hyperframes/
+launch/beats/
+launch/assets/screens/
+launch/assets/brand/
+launch/assets/audio/
+launch/assets/lang.js
+launch/assets/music.js

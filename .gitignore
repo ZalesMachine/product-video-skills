@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+__pycache__/
+*.pyc
+# Local tests of the template (the example's video/ has its own .gitignore)
+template/launch/renders/
+template/launch/snapshots/
+template/launch/review/
+template/launch/.hyperframes/
+template/launch/assets/screens/
+template/launch/assets/brand/
+template/launch/assets/audio/
+template/launch/assets/lib/
+template/launch/assets/lang.js
+template/launch/assets/music.js
+template/.cache/

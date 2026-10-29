@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #sc-finale { position: absolute; inset: 0; --c1: var(--pv-brand); --c2: var(--pv-action); --c3: var(--pv-data); }
+        .f-mont { position: absolute; inset: 0; perspective: 2000px; }
+        .f-shot { left: 0; top: 0; --glow: var(--pv-brand); }
+        .f-dark { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--pv-ground) 82%, transparent) 25%, color-mix(in srgb, var(--pv-ground) 45%, transparent) 75%); }
+        .f-lines { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .f-l { font-size: 150px; }
+        .f-l2 .wi:last-child { color: var(--pv-action); }
+        .f-lock { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .f-logo { width: 170px; height: auto; display: block; margin-bottom: 48px; }
+        .f-product { font-size: 196px; --glow: var(--pv-brand); }
+        .f-frame { position: relative; }
+        /* The product URL as an address bar */
+        .f-url { margin-top: 56px; display: flex; align-items: center; padding: 18px 34px 18px 30px; border-radius: 999px; font-family: var(--pv-font-mono); font-size: 38px; font-weight: 500; letter-spacing: 0.01em;
+          background: color-mix(in srgb, white 6%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--pv-action) 55%, transparent), 0 0 60px color-mix(in srgb, var(--pv-action) 18%, transparent); }
+        .f-url-p { color: var(--pv-text-55); }
+        .f-url-t { color: var(--pv-text-1); }
+        .f-frame .hair.h { left: -2000px; right: -2000px; }
+        .f-frame .hair.v { top: -2000px; bottom: -2000px; }
+        .f-h1 { top: 14px; } .f-h2 { bottom: 4px; }
+        .f-v1 { left: -30px; } .f-v2 { right: -30px; }
+        .f-x1 { left: -30px; top: 14px; } .f-x2 { left: calc(100% + 30px); top: 14px; }
+        .f-x3 { left: -30px; top: calc(100% - 4px); } .f-x4 { left: calc(100% + 30px); top: calc(100% - 4px); }
+        .f-black { position: absolute; inset: 0; background: #000; z-index: 60; }
+        .f-flash { --flash: white; z-index: 50; }
+      </style>
+
+      <div id="sc-finale" class="scene" data-composition-id="finale" data-width="1920" data-height="1080">
+        <div class="bg"><i data-layout-allow-overflow class="wash w1"></i><i data-layout-allow-overflow class="wash w2"></i><i data-layout-allow-overflow class="wash w3"></i><div class="grid"></div><div class="dots"></div><div class="vignette"></div></div>
+        <div class="f-mont">
+          <!-- One real plane per beat (8 beats). Repeat or remove according to the captures you have. -->
+          <div class="plane f-shot" data-shot="dashboard"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="tickets"><img src="assets/screens/current/tickets.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="customers"><img src="assets/screens/current/customers.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="login"><img src="assets/screens/current/login.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="tickets"><img src="assets/screens/current/tickets.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="dashboard"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="customers"><img src="assets/screens/current/customers.png" alt="" /></div>
+          <div class="plane f-shot" data-shot="dashboard"><img src="assets/screens/current/dashboard.png" alt="" /></div>
+          <div class="f-dark"></div>
+          <div class="f-lines">
+            <div class="kt f-l f-l1"></div>
+            <div class="kt f-l f-l2"></div>
+          </div>
+        </div>
+        <div class="f-lock">
+          <img class="f-logo" src="assets/brand/logo.png" alt="" />
+          <div class="f-frame">
+            <div class="kt glow f-product"></div>
+            <i class="hair h f-h1"></i><i class="hair h f-h2"></i><i class="hair v f-v1"></i><i class="hair v f-v2"></i>
+            <div class="cross f-x1"></div><div class="cross f-x2"></div><div class="cross f-x3"></div><div class="cross f-x4"></div>
+          </div>
+          <div class="f-url"><span class="f-url-p">https://</span><span class="f-url-t"></span></div>
+        </div>
+        <div class="flash f-flash"></div>
+        <div class="f-black"></div>
+      </div>
+
+      <script>
+        PV.scene('finale', (R, tl) => {
+          const $ = (s) => R.querySelector(s);
+          const $$ = (s) => Array.from(R.querySelectorAll(s));
+          const b = PV.b;
+
+          // Montage: one cut per beat, each real screen with its own tilt.
+          const shots = $$('.f-shot');
+          const poses = [[8, -14], [-6, 12], [10, 10], [-8, -10], [6, -12], [-10, 14], [8, 8], [-6, -8]];
+          gsap.set(shots, { opacity: 0 });
+          shots.forEach((el, i) => {
+            const g = PV.plane(el, el.dataset.shot, 1560);
+            const t = b(i);
+            const [rx, ry] = poses[i];
+            tl.set(el, { opacity: 1 }, t);
+            tl.fromTo(el, { x: 960 - g.w / 2, y: 540 - g.h / 2, scale: 1.14, rotationX: rx, rotationY: ry, filter: 'blur(6px)' },
+              { scale: 1.0, rotationX: rx * 0.6, rotationY: ry * 0.6, filter: 'blur(0px)', duration: b(1), ease: 'expo.out' }, t);
+            if (i < shots.length - 1) tl.set(el, { opacity: 0 }, b(i + 1));
+            tl.fromTo($('.f-flash'), { opacity: 0.22 }, { opacity: 0, duration: 0.25, ease: 'power2.out' }, t);
+          });
+
+          // Closing line in two lines over the montage (end.line1 / end.line2).
+          const l1 = PV.words($('.f-l1'), PV.t('end.line1').toUpperCase());
+          const l2 = PV.words($('.f-l2'), PV.t('end.line2').toUpperCase());
+          // The longest line sets the size: never wider than 1700 px.
+          const fit = Math.min(1, 1700 / Math.max(PV.textWidth($('.f-l1'), PV.t('end.line1').toUpperCase()), PV.textWidth($('.f-l2'), PV.t('end.line2').toUpperCase())));
+          [$('.f-l1'), $('.f-l2')].forEach((el) => { el.style.fontSize = `${150 * fit}px`; });
+          PV.rise(tl, l1, 0.05, { stagger: b(0.5), dur: 0.5 });
+          PV.rise(tl, l2, b(4), { stagger: b(0.5), dur: 0.5 });
+
+          // Zoom-through to the lockup.
+          PV.zoomOut(tl, $('.f-mont'), b(8) - 0.24, { scale: 1.4 });
+          const productText = PV.t('hook.product').toUpperCase();
+          $('.f-product').style.fontSize = `${196 * Math.min(1, 1700 / PV.textWidth($('.f-product'), productText))}px`;
+          const product = PV.chars($('.f-product'), productText);
+          gsap.set($('.f-lock'), { opacity: 0 });
+          tl.set($('.f-lock'), { opacity: 1 }, b(8));
+          PV.arrive(tl, $('.f-lock'), b(8), { from: 1.3 });
+          // The lockup keeps breathing until the fade: a slow push-in, never a frozen frame.
+          tl.to($('.f-lock'), { scale: 1.05, duration: b(12) - 0.6, ease: 'none' }, b(8) + 0.6);
+          tl.fromTo(product, { opacity: 0, y: 40, filter: 'blur(12px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.55, ease: 'power4.out', stagger: 0.04 }, b(8));
+          tl.fromTo($('.f-logo'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, b(9));
+          // The product URL.
+          tl.fromTo($('.f-url'), { opacity: 0, y: 24, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'expo.out' }, b(10));
+          PV.decode(tl, $('.f-url-t'), PV.URL, b(10.1), { dur: b(1.5), glyphs: 'abcdefghijklmnopqrstuvwxyz0123456789.' });
+
+          // Hairline frame with crosses around the title (positions in CSS).
+          gsap.set([$('.f-h1'), $('.f-h2'), $('.f-v1'), $('.f-v2')], { opacity: 0 });
+          PV.drawLines(tl, [$('.f-h1'), $('.f-v1'), $('.f-h2'), $('.f-v2')], b(9), { dur: b(2), stagger: b(0.25) });
+          tl.fromTo($$('.f-x1, .f-x2, .f-x3, .f-x4'), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'power3.out', stagger: b(0.25) }, b(10));
+
+          // Fade to black in the last 2 beats.
+          gsap.set($('.f-black'), { opacity: 0 });
+          tl.to($('.f-black'), { opacity: 1, duration: b(2), ease: 'power1.in' }, b(18));
+        });
+      </script>
+    </template>
+  </body>
+</html>

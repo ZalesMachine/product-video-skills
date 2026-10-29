@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        /* Tickets (12 beats): a list in cascade. Real rows (cropped up to the status column, 1.3×) fall in
+           from depth, their status chips jump toward the camera, then a 2D camera move isolates one row
+           and it gets solved with a click (the action moment). */
+        #sc-tickets { position: absolute; inset: 0; --c1: var(--pv-data); --c2: var(--pv-brand); --c3: var(--pv-action); }
+        .t-world { position: absolute; inset: 0; }
+        .t-head { position: absolute; left: 120px; top: 118px; }
+        .t-title { font-size: 112px; }
+        .t-cap { position: absolute; right: 120px; top: 196px; font-size: 54px; font-weight: 700; letter-spacing: -0.03em; }
+        .t-cam { position: absolute; inset: 0; transform-origin: 0 0; }
+        .t-stack { position: absolute; inset: 0; perspective: 2200px; perspective-origin: 50% 20%; }
+        .t-row, .t-thead { left: 0; top: 0; border-radius: 12px; --glow: var(--pv-data); }
+        .t-st, .t-solved { left: 0; top: 0; border-radius: 999px; --glow: var(--pv-action); }
+        .t-ring { position: absolute; left: 0; top: 0; border-radius: 999px;
+          box-shadow: 0 0 0 3px var(--pv-action), 0 0 44px color-mix(in srgb, var(--pv-action) 55%, transparent); }
+      </style>
+
+      <div id="sc-tickets" class="scene" data-composition-id="tickets" data-width="1920" data-height="1080">
+        <div class="bg"><i data-layout-allow-overflow class="wash w1"></i><i data-layout-allow-overflow class="wash w2"></i><i data-layout-allow-overflow class="wash w3"></i><div class="grid"></div><div class="vignette"></div></div>
+        <div class="t-world">
+          <div class="t-cam"><div class="t-stack">
+            <div class="frag flat t-thead"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row1"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row2"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row3"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row4"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row5"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-row" data-key="row6"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <!-- Status chips that jump out of their row (rows 1, 2, 3 and 5). -->
+            <div class="frag t-st" data-row="1"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-st" data-row="2"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-st" data-row="3"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="frag t-st" data-row="5"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <!-- The real "Solved" chip (row 7 of the capture) that lands on row 2 after the click. -->
+            <div class="frag flat t-solved"><img src="assets/screens/current/tickets.png" alt="" /></div>
+            <div class="t-ring"></div>
+          </div>
+          <div class="cursor t-cursor"></div></div>
+          <div class="t-head"><div class="kt t-title"></div></div>
+          <div class="t-cap"><span class="t-cycle"></span></div>
+        </div>
+        <div class="pv-nav-dim"></div>
+        <div class="pv-nav"><div class="frag pv-rail"><img src="assets/screens/current/dashboard.png" alt="" /><img src="assets/screens/current/tickets.png" alt="" /></div><div class="pv-rail-ring"></div><div class="cursor pv-rail-cursor"></div></div>
+      </div>
+
+      <script>
+        PV.scene('tickets', (R, tl) => {
+          const $ = (s) => R.querySelector(s);
+          const $$ = (s) => Array.from(R.querySelectorAll(s));
+          const b = PV.b;
+          const C = PV.color;
+
+          // Entrance: continues the dashboard's zoom-through, then into the section from the sidebar.
+          PV.zoomIn(tl, $('.t-world'), 0);
+          const C0 = PV.navIntro(R, tl, 'tickets');
+          PV.streakIn(tl, PV.chars($('.t-title'), PV.t('tk.title').toUpperCase()), C0, { from: 'left', dist: 200, stagger: 0.03, blur: 16 });
+          // The last idea is the action moment: the pill turns to the action color.
+          PV.cycle(tl, $('.t-cycle'), PV.t('tk.caps'), [b(2), b(5), b(8)], { colors: [C('data'), C('data'), C('action')] });
+
+          // "Every ticket": real rows fall in a cascade from depth, one every 0.4 beats. Each row is cropped
+          // up to the end of the status column so the text reads at 1.3× (the whole row at 1× is too small).
+          const tg = PV.shot('tickets').targets;
+          const SC = 1.3, Y0 = 390, GAP = 80;
+          const cropOf = (key) => { const r = tg[key]; return { x: r.x, y: r.y, w: tg.st7.x + tg.st7.w + 28 - r.x, h: r.h }; };
+          const head = $('.t-thead');
+          const gh = PV.crop(head, 'tickets', cropOf('thead'), { scale: SC });
+          gsap.set(head, { x: 960 - gh.w / 2, y: Y0 - gh.h - 12 });
+          PV.fadeIn(tl, head, b(1.3), { blur: 8, dur: 0.4 });
+          const rows = $$('.t-row');
+          const geo = rows.map((el, i) => {
+            const g = PV.crop(el, 'tickets', cropOf(el.dataset.key), { scale: SC });
+            const x = 960 - g.w / 2, y = Y0 + i * GAP;
+            tl.fromTo(el, { x, y: y + 90, scale: 0.88, rotationX: -35, opacity: 0, filter: 'blur(10px)', transformOrigin: '50% 0%' },
+              { x, y, scale: 1, rotationX: 0, opacity: 1, filter: 'blur(0px)', duration: 0.55, ease: 'expo.out' }, b(1.5) + i * b(0.4));
+            return { x, y, ...g };
+          });
+          // Position of a row's status chip on screen (from the manifest, not from the layout).
+          const chipAt = (r) => {
+            const st = tg[`st${r}`], row = tg[`row${r}`];
+            return { x: geo[r - 1].x + (st.x - row.x) * SC, y: geo[r - 1].y + (st.y - row.y) * SC, w: st.w * SC, h: st.h * SC };
+          };
+
+          // "At a glance": the status chips jump 2× above their row, one every 0.4 beats.
+          $$('.t-st').forEach((el, k) => {
+            const r = Number(el.dataset.row);
+            const SS = 2.0;
+            const g = PV.crop(el, 'tickets', `st${r}`, { scale: SS, pad: 3 });
+            const c = chipAt(r), cx = c.x + c.w / 2, cy = c.y + c.h / 2;
+            tl.fromTo(el, { x: cx - g.w / 2, y: cy - g.h / 2, scale: SC / SS, opacity: 0 },
+              { scale: 1, y: cy - g.h / 2 - 40, opacity: 1, duration: 0.45, ease: 'expo.out' }, b(5) + k * b(0.4));
+            tl.to(el, { opacity: 0, scale: 0.6, duration: 0.25, ease: 'power2.in' }, b(7.5) - 0.25);
+          });
+
+          // "Solved in a click": the other rows leave and a 2D camera move isolates row 2.
+          const keep = rows[1];
+          const others = rows.filter((_, i) => i !== 1);
+          tl.to([...others, head], { opacity: 0, y: '+=40', filter: 'blur(6px)', duration: 0.45, ease: 'power3.in', stagger: 0.03 }, b(7.6) - 0.3);
+          const c2 = chipAt(2);
+          const cam = $('.t-cam');
+          // Frame from the subject to the status chip (the subject starts ~108 CSS px into the row).
+          const focus = [(geo[1].x + 108 * SC + c2.x + c2.w) / 2, c2.y + c2.h / 2 + 30];
+          tl.to(cam, { ...PV.camAt(1.15, focus), duration: 1.0, ease: 'power3.inOut' }, b(7.6) - 0.2);
+          // Cursor travels to the chip and clicks on beat 9; the real "Solved" chip lands on it.
+          const cur = $('.t-cursor');
+          cur.innerHTML = PV.cursorHTML;
+          gsap.set(cur, { x: c2.x + 260, y: c2.y + 260, opacity: 0 });
+          PV.click(tl, cur, b(9), [c2.x + c2.w * 0.5, c2.y + c2.h * 0.6], { travel: 0.7 });
+          const solved = $('.t-solved');
+          const gs = PV.crop(solved, 'tickets', 'st7', { scale: SC, pad: 3 });
+          tl.fromTo(solved, { x: c2.x - 3 * SC, y: c2.y - 3 * SC, scale: 1.6, opacity: 0, filter: 'blur(10px)', transformOrigin: '30% 50%' },
+            { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.4, ease: 'power4.out' }, b(9) + 0.04);
+          const ring = $('.t-ring');
+          gsap.set(ring, { x: c2.x - 10, y: c2.y - 8, width: gs.w + 14, height: c2.h + 16, opacity: 0 });
+          tl.fromTo(ring, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'power3.out' }, b(9) + 0.06);
+          tl.to(cur, { opacity: 0, duration: 0.3, ease: 'none' }, b(10.4));
+          // Keep it alive until the cut: the camera keeps pushing in, slowly.
+          tl.to(cam, { ...PV.camAt(1.2, focus), duration: b(12) - b(9.4) - 0.22, ease: 'none' }, b(9.4));
+
+          // Exit: lateral whip into the closing montage.
+          PV.whipOut(tl, $('.t-world'), b(12) - 0.22, { dir: -1 });
+        });
+      </script>
+    </template>
+  </body>
+</html>
