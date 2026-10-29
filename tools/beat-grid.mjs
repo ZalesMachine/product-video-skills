@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Measures the beat grid of a track without Python: only Node and ffmpeg.
 //
-//   node tools/beat-grid.mjs <audio.mp3> [--bpm 95] [--downbeat 0.651] [--phrase 16] [--json]
+//   node tools/beat-grid.mjs <audio.mp3> [--bpm 112] [--downbeat 0.42] [--phrase 16] [--json]
 //
 // Decodes the audio to mono 8 kHz PCM with ffmpeg, keeps the kick (low-pass ~150 Hz),
 // builds an onset envelope and:

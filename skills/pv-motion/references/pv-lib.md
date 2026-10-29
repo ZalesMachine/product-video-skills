@@ -11,7 +11,7 @@ Motion helpers shared by every scene (`lib/pv.js`, copied into `video/launch/ass
 | `PV.LOCALE` | `PV_I18N.locales[PV.LANG]` (e.g. `en-US`), or the language code itself. |
 | `PV.URL` | `PV_I18N.url` (the product URL, without `https://`); `example.com` if missing. |
 | `PV.t(key)` | Copy for the active language; falls back to `PV_I18N.fallback` (or the first language in `locales`), then to the key itself. Returns strings or arrays. |
-| `PV.fmt(n, decimals)` | Number in the active locale (`en-US` → `10,810`; `es-AR` → `10.810`). |
+| `PV.fmt(n, decimals)` | Number in the active locale (`en-US` → `1,284`; `es-AR` → `1.284`). |
 | `PV.BPM`, `PV.B`, `PV.b(n)`, `PV.BAR`, `PV.DOWNBEAT0` | The grid: BPM, length of a beat, `n` beats in seconds, one bar, first downbeat. From `window.PV_MUSIC` (`assets/music.js`, written by `render.mjs` from `music.json`); without it, 120 BPM and downbeat 0. |
 | `PV.rng(seed)` | mulberry32 PRNG: reproducible randomness for decodes and scatters. |
 | `PV.color(name)` | Resolved value of `--pv-<name>` (`PV.color('action')`), for tweens of `backgroundColor` and for `PV.cycle`'s `colors`. |

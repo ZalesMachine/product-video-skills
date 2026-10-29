@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Measures a render the way a demanding editor would, without listening to it.
 //
-//   node tools/review.mjs <video.mp4> <out-dir> [--music music.json] [--bpm 95 --downbeat 0.651]
+//   node tools/review.mjs <video.mp4> <out-dir> [--music music.json] [--bpm 112 --downbeat 0.42]
 //
 // Writes to out-dir:
 //   filmstrip.jpg   one frame every 0.5 s in a grid (the reading rhythm; runs of equal frames = stillness)

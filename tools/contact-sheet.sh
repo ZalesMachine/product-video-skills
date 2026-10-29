@@ -5,9 +5,9 @@
 #
 # Default: the whole video, one frame every 2.5 s, 3 columns at 600 px. If your ffmpeg has the
 # `drawtext` filter (Homebrew's doesn't), the time is printed on each frame; otherwise the frames
-# have no text and the script prints the list of times. Example for a scene from 61.3 to 76.4 s,
-# one frame per beat at 95 BPM (0.6316 s):
-#   tools/contact-sheet.sh video/launch/renders/x-en.mp4 61.3 76.4 0.6316 scene.jpg
+# have no text and the script prints the list of times. Example: the tickets scene of
+# examples/acme-desk (16.8 to 24.0 s), one frame per beat at 100 BPM (0.6 s):
+#   tools/contact-sheet.sh video/launch/renders/acme-desk-en.mp4 16.8 24.0 0.6 tickets.jpg
 set -euo pipefail
 FILM="${1:?usage: contact-sheet.sh <video.mp4> [start] [end] [step] [out.jpg]}"
 START="${2:-0}"

@@ -75,12 +75,12 @@ Example of a measured track:
 {
   "title": "Track title", "artist": "Artist",
   "page": "https://…", "source": "~/Downloads/track.mp3",
-  "file": "launch/assets/audio/music.mp3", "sha256": "4cb3…da0e",
+  "file": "launch/assets/audio/music.mp3", "sha256": "<64 hex chars from shasum -a 256>",
   "license": "Royalty-free; credit the track in the video description.",
-  "bpm": 95.002,
-  "grid": { "beat": 0.631566, "first_downbeat": 0.651,
-            "note": "Fills at 15 and 63. Breakdown without bass 96–127 (61.28–81.49 s). Drop 2 at beat 128. Fades out around 122 s.",
-            "phrases_s": [0.651, 10.756, 20.861, 30.966, 41.071, 51.176, 61.281, 71.386, 81.491, 91.596, 101.701, 111.806] },
+  "bpm": 112.0,
+  "grid": { "beat": 0.535714, "first_downbeat": 0.42,
+            "note": "Illustrative values. Fills at 15 and 47. Breakdown without bass 96–127 (51.85–68.99 s). Drop 2 at beat 128. Fades out around 106 s.",
+            "phrases_s": [0.42, 8.991, 17.563, 26.134, 34.706, 43.277, 51.849, 60.42, 68.991, 77.563, 86.134, 94.706] },
   "cuts": { "launch": null }
 }
 ```

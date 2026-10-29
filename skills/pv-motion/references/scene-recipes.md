@@ -147,7 +147,7 @@ For things that **don't exist yet** ("Coming soon"): drawn generic cards, never 
 |---|---|
 | 0 | Flash 0.6; title by characters from 2.2× with blur 24; eyebrow decoded on 1. `zoomOut` on 4. |
 | 4 | Header comes in. Each panel `i` starts on `4 + 8i`: enters from below (`y 220`, blur 18) except the first, name with `streakIn` line by line, subtitle, visual from the right (`x 120`, `rotationY -18`), its dash lights up; it leaves upward 0.22 s before the next. |
-| per panel | Each visual has a micro-story in 8 beats: steps that light up one per beat (`scaleX` of an action background + text color) and a result that takes off (bars `scaleY 0 → 1`, counters); a network of nodes drawing its edges (SVG `stroke-dashoffset` via `attr`) with signals traveling to a center; an envelope traveling to an inbox and a card with signals and an alert whose button beats once (`yoyo`, `repeat: 1`, finite); a search that types itself, three results, ours rising to #1 (the only tween of `top`, acceptable for three absolute elements), and a generated answer that writes itself. |
+| per panel | Each visual tells, in 8 beats, what that item will do, with drawn generic cards. Techniques that work: steps that light up one per beat (`scaleX` of an action background + text color) and a result that takes off (bars `scaleY 0 → 1`, counters); a diagram whose edges draw themselves (SVG `stroke-dashoffset` via `attr`); a button that beats once (`yoyo`, `repeat: 1`, finite); three results that swap places (tweening `top` is acceptable here: three absolute elements without layout). |
 | last | `whipOut` of the last panel and the header. |
 
 Keys: 8 beats per item so it reads; four items on one screen don't.

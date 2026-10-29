@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Measures the beat grid of a track for music.json.
 
-  python3 tools/beat-grid.py <audio.mp3> [--bpm 95] [--downbeat 0.651] [--phrase 16] [--json]
+  python3 tools/beat-grid.py <audio.mp3> [--bpm 112] [--downbeat 0.42] [--phrase 16] [--json]
 
 Prints: BPM, beat length, first downbeat, phrase starts (every --phrase beats), RMS energy
 per phrase (to locate the breakdown and the drop), candidate fills (beats with an onset much

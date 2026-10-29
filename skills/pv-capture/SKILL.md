@@ -87,7 +87,7 @@ Conventions the scenes expect:
 ```bash
 node video/capture/capture.mjs                         # every language, build included
 node video/capture/capture.mjs --lang en --skip-build --only dashboard,tickets
-node video/capture/capture.mjs --legacy-ref f588154    # earlier UI
+node video/capture/capture.mjs --legacy-ref a1b2c3d    # earlier UI (any commit of the product repo)
 node video/capture/capture.mjs --probe --only tickets  # lists classes to discover selectors
 VIDEO_HEADLESS=new node video/capture/capture.mjs      # "new" headless, if the shell one fails
 ```
